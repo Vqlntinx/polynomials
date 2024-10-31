@@ -21,6 +21,10 @@ int main() {
     printf("Sum: ");
     printPoly(sum);
 
+    Term *difference = subPoly(poly1, poly2);
+    printf("Diff: ");
+    printPoly(difference);
+
     freePoly(poly1);
     freePoly(poly2);
     freePoly(sum);
