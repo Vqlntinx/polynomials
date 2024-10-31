@@ -58,7 +58,7 @@ void freePoly(Term *head) {
     }
 }
 
-Term *addPoly(Term *poly1, Term *poly2) {
+static Term *__addPoly(Term *poly1, Term *poly2, int sign) {
     Term *result = NULL;
     Term *p1 = poly1, *p2 = poly2;
 
@@ -67,10 +67,10 @@ Term *addPoly(Term *poly1, Term *poly2) {
             addTerm(&result, p1->coef, p1->exp);
             p1 = p1->next;
         } else if (p1->exp < p2->exp) {
-            addTerm(&result, p2->coef, p2->exp);
+            addTerm(&result, sign * p2->coef, p2->exp);
             p2 = p2->next;
         } else {
-            addTerm(&result, p1->coef + p2->coef, p1->exp);
+            addTerm(&result, p1->coef + sign * p2->coef, p1->exp);
             p1 = p1->next;
             p2 = p2->next;
         }
@@ -81,39 +81,17 @@ Term *addPoly(Term *poly1, Term *poly2) {
         p1 = p1->next;
     }
     while (p2 != NULL) {
-        addTerm(&result, p2->coef, p2->exp);
+        addTerm(&result, p2->coef, sign * p2->exp);
         p2 = p2->next;
     }
 
     return result;
 }
 
+Term *addPoly(Term *poly1, Term *poly2) {
+    return __addPoly(poly1, poly2, 1);
+}
+
 Term *subPoly(Term *poly1, Term *poly2) {
-    Term *result = NULL;
-    Term *p1 = poly1, *p2 = poly2;
-
-    while (p1 != NULL && p2 != NULL) {
-        if (p1->exp > p2->exp) {
-            addTerm(&result, p1->coef, p1->exp);
-            p1 = p1->next;
-        } else if (p1->exp < p2->exp) {
-            addTerm(&result, -p2->coef, p2->exp);
-            p2 = p2->next;
-        } else {
-            addTerm(&result, p1->coef - p2->coef, p1->exp);
-            p1 = p1->next;
-            p2 = p2->next;
-        }
-    }
-
-    while (p1 != NULL) {
-        addTerm(&result, p1->coef, p1->exp);
-        p1 = p1->next;
-    }
-    while (p2 != NULL) {
-        addTerm(&result, -p2->coef, p2->exp);
-        p2 = p2->next;
-    }
-
-    return result;
+    return __addPoly(poly1, poly2, -1);
 }
