@@ -30,10 +30,19 @@ void addTerm(Term **head, int coef, int exp) {
 
 void printPoly(Term *head) {
     Term *temp = head;
+    int firstTerm = 1;
+
     while (temp != NULL) {
-        printf("%.2fx^%d", temp->coef, temp->exp);
-        if (temp->next != NULL) {
-            printf(" + ");
+        if (temp->coef != 0) {
+            if (firstTerm) {
+                printf("%.2fx^%d", temp->coef, temp->exp);
+                firstTerm = 0;
+            } else {
+                if (temp->coef > 0)
+                    printf(" + %.2fx^%d", temp->coef, temp->exp);
+                else
+                    printf(" - %.2fx^%d", -temp->coef, temp->exp);
+            }
         }
         temp = temp->next;
     }
