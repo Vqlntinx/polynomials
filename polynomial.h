@@ -12,7 +12,7 @@ typedef struct Term {
 } Term;
 
 Term *createTerm(int coef, int exp);
-void addTerm(Term **head, int coef, int exp);
+void appendTerm(Term **head, int coef, int exp);
 void printPoly(Term *head);
 void freePoly(Term *head);
 Term *addPoly(Term *poly1, Term *poly2);
