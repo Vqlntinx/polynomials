@@ -8,7 +8,7 @@ Term* createTerm(int coef, int exp) {
     return newTerm;
 }
 
-void addTerm(Term **head, int coef, int exp) {
+void appendTerm(Term **head, int coef, int exp) {
     Term *newTerm = createTerm(coef, exp);
     if (*head == NULL || (*head)-> exp < exp) {
         newTerm-> next = *head;
